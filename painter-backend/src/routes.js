@@ -27,6 +27,9 @@ router.use('/offers', require('./modules/offer/offer.routes'));
 
 router.use('/admin', require('./modules/admin/admin.offer.routes'));
 
+router.use('/trainings', require('./modules/training/training.routes'));
+
+router.use('/admin', require('./modules/admin/admin.training.routes'));
 
 
 module.exports = router;
