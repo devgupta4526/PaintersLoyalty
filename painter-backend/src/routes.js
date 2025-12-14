@@ -31,5 +31,9 @@ router.use('/trainings', require('./modules/training/training.routes'));
 
 router.use('/admin', require('./modules/admin/admin.training.routes'));
 
+router.use('/notifications', require('./modules/notification/notification.routes'));
+
+router.use('/admin', require('./modules/admin/admin.notification.routes'));
+
 
 module.exports = router;
