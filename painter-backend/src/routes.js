@@ -14,6 +14,9 @@ router.use('/wallet', require('./modules/wallet/wallet.routes'));
 router.use('/withdrawals', require('./modules/withdrawal/withdrawal.routes'));
 
 
+router.use('/admin', require('./modules/admin/admin.withdrawal.routes'));
+
+router.use('/dashboard', require('./modules/dashboard/dashboard.routes'));
 
 
 module.exports = router;
