@@ -15,8 +15,15 @@ router.use('/withdrawals', require('./modules/withdrawal/withdrawal.routes'));
 
 
 router.use('/admin', require('./modules/admin/admin.withdrawal.routes'));
+router.use('/admin', require('./modules/admin/admin.complaint.routes'));
+router.use('/admin', require('./modules/admin/admin.coupon.routes'));
+
 
 router.use('/dashboard', require('./modules/dashboard/dashboard.routes'));
+
+router.use('/complaints', require('./modules/complaint/complaint.routes'));
+
+
 
 
 module.exports = router;
