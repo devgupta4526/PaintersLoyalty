@@ -23,6 +23,9 @@ router.use('/dashboard', require('./modules/dashboard/dashboard.routes'));
 
 router.use('/complaints', require('./modules/complaint/complaint.routes'));
 
+router.use('/offers', require('./modules/offer/offer.routes'));
+
+router.use('/admin', require('./modules/admin/admin.offer.routes'));
 
 
 
