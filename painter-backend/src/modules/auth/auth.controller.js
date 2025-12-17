@@ -17,3 +17,21 @@ exports.verifyOtp = async (req, res, next) => {
     next(e);
   }
 };
+
+exports.login = async (req, res, next) => {
+  try {
+    const data = await service.login(req.body);
+    res.json(data);
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.registerAdmin = async (req, res, next) => {
+  try {
+    const user = await service.registerAdmin(req.body);
+    res.json({ message: 'Admin registered', userId: user._id });
+  } catch (e) {
+    next(e);
+  }
+};

@@ -3,13 +3,33 @@ const Wallet = require('../wallet/wallet.model');
 const Transaction = require('../wallet/transaction.model');
 const PainterProfile = require('../painter/painter.model');
 
+exports.validateCoupon = async (code) => {
+  const coupon = await Coupon.findOne({ code });
+  if (!coupon) throw new Error('Invalid coupon code');
+  if (coupon.status !== 'UNUSED') throw new Error('Coupon not available');
+  if (coupon.expiresAt && coupon.expiresAt < new Date()) throw new Error('Coupon expired');
+  return { valid: true, value: coupon.value };
+};
+
 exports.redeemCoupon = async (userId, code) => {
   const coupon = await Coupon.findOne({ code });
   if (!coupon) throw new Error('Invalid coupon code');
 
-  if (coupon.isRedeemed) {
-    throw new Error('Coupon already redeemed');
+  if (coupon.status !== 'UNUSED') {
+    throw new Error('Coupon already redeemed or expired');
   }
+
+  if (coupon.expiresAt && coupon.expiresAt < new Date()) {
+    coupon.status = 'EXPIRED';
+    await coupon.save();
+    throw new Error('Coupon expired');
+  }
+
+  // Redeem coupon
+  coupon.status = 'REDEEMED';
+  coupon.redeemedBy = userId;
+  coupon.redeemedAt = new Date();
+  await coupon.save();
 
   // Lock coupon
   coupon.isRedeemed = true;
@@ -53,7 +73,45 @@ exports.redeemCoupon = async (userId, code) => {
   );
 
   return {
-    pointsEarned: coupon.points,
+    pointsEarned: coupon.value,
     currentBalance: wallet.balance
   };
+};
+
+exports.getMyCoupons = async (userId) => {
+  return await Coupon.find({ redeemedBy: userId }).sort({ redeemedAt: -1 });
+};
+
+exports.getAllCoupons = async () => {
+  return await Coupon.find().populate('assignedTo', 'email').populate('redeemedBy', 'email').sort({ createdAt: -1 });
+};
+
+exports.assignCoupons = async (dealerId, coupons) => {
+  const updates = coupons.map(code => ({
+    updateOne: {
+      filter: { code },
+      update: { assignedTo: dealerId }
+    }
+  }));
+  await Coupon.bulkWrite(updates);
+};
+
+exports.assignCouponsToPainter = async (painterId, codes) => {
+  const updates = codes.map(code => ({
+    updateOne: {
+      filter: { code, assignedTo: { $exists: true } }, // Only assign if already assigned to dealer
+      update: { assignedTo: painterId }
+    }
+  }));
+  await Coupon.bulkWrite(updates);
+};
+
+exports.getCouponStats = async () => {
+  const stats = await Coupon.aggregate([
+    { $group: { _id: '$status', count: { $sum: 1 } } }
+  ]);
+  return stats.reduce((acc, stat) => {
+    acc[stat._id] = stat.count;
+    return acc;
+  }, {});
 };

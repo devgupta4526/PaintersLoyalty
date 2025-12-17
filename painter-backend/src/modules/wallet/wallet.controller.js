@@ -32,3 +32,31 @@ exports.getQuarterly = async (req, res, next) => {
     next(e);
   }
 };
+
+exports.getYearly = async (req, res, next) => {
+  try {
+    const data = await service.getYearlyEarnings(req.user.userId);
+    res.json(data);
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.getTransactions = async (req, res, next) => {
+  try {
+    const { type, month, quarter, year } = req.query;
+    const data = await service.getTransactions(req.user.userId, { type, month, quarter, year });
+    res.json(data);
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.getWithdrawalEligibility = async (req, res, next) => {
+  try {
+    const data = await service.getWithdrawalEligibility(req.user.userId);
+    res.json(data);
+  } catch (e) {
+    next(e);
+  }
+};

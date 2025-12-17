@@ -1,0 +1,596 @@
+{
+  "info": {
+    "name": "Painter Backend API – Full Heavy Testing",
+    "_postman_id": "c2c7f7c1-9e6e-4f5a-bb71-112233aabbcc",
+    "description": "Auto-generated full Postman collection for Painter Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let res = pm.response.json();",
+                  "if (res.token) {",
+                  "pm.collectionVariables.set('token', res.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@test.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"user@test.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Painter",
+      "item": [
+        {
+          "name": "Get All Painters",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/painter",
+              "host": ["{{baseUrl}}"],
+              "path": ["painter"]
+            }
+          }
+        },
+        {
+          "name": "Create Painter",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Painter Name\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/painter",
+              "host": ["{{baseUrl}}"],
+              "path": ["painter"]
+            }
+          }
+        },
+        {
+          "name": "Get Portfolio",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/painter/portfolio",
+              "host": ["{{baseUrl}}"],
+              "path": ["painter", "portfolio"]
+            }
+          }
+        },
+        {
+          "name": "Upload Photo",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/painter/photo",
+              "host": ["{{baseUrl}}"],
+              "path": ["painter", "photo"]
+            }
+          }
+        },
+        {
+          "name": "Upload KYC",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "idProof",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/painter/kyc",
+              "host": ["{{baseUrl}}"],
+              "path": ["painter", "kyc"]
+            }
+          }
+        },
+        {
+          "name": "Add Skills",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"skills\": [\"Painting\", \"Interior\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/painter/skills",
+              "host": ["{{baseUrl}}"],
+              "path": ["painter", "skills"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Get Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/product?category=Paints&search=Asian",
+              "host": ["{{baseUrl}}"],
+              "path": ["product"],
+              "query": [
+                { "key": "category", "value": "Paints" },
+                { "key": "search", "value": "Asian" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dealer",
+      "item": [
+        {
+          "name": "Approve Painter",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"painterId\": \"painter_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/dealer/approve-painter",
+              "host": ["{{baseUrl}}"],
+              "path": ["dealer", "approve-painter"]
+            }
+          }
+        },
+        {
+          "name": "Get Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/dealer/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["dealer", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wallet",
+      "item": [
+        {
+          "name": "Get Wallet",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/wallet",
+              "host": ["{{baseUrl}}"],
+              "path": ["wallet"]
+            }
+          }
+        },
+        {
+          "name": "Get Yearly Earnings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/wallet/yearly?year=2023",
+              "host": ["{{baseUrl}}"],
+              "path": ["wallet", "yearly"],
+              "query": [
+                { "key": "year", "value": "2023" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Withdrawals",
+      "item": [
+        {
+          "name": "Request Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/withdraw",
+              "host": ["{{baseUrl}}"],
+              "path": ["withdraw"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Coupons",
+      "item": [
+        {
+          "name": "Get Coupons",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/coupon",
+              "host": ["{{baseUrl}}"],
+              "path": ["coupon"]
+            }
+          }
+        },
+        {
+          "name": "Validate Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"COUPON123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/coupon/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["coupon", "validate"]
+            }
+          }
+        },
+        {
+          "name": "Redeem Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"COUPON123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/coupon/redeem",
+              "host": ["{{baseUrl}}"],
+              "path": ["coupon", "redeem"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Offers",
+      "item": [
+        {
+          "name": "Get Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/offer",
+              "host": ["{{baseUrl}}"],
+              "path": ["offer"]
+            }
+          }
+        },
+        {
+          "name": "Participate in Offer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"offerId\": \"offer_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/offer/participate",
+              "host": ["{{baseUrl}}"],
+              "path": ["offer", "participate"]
+            }
+          }
+        },
+        {
+          "name": "Get In-Progress Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/offer/in-progress",
+              "host": ["{{baseUrl}}"],
+              "path": ["offer", "in-progress"]
+            }
+          }
+        },
+        {
+          "name": "Get Redeemed Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/offer/redeemed",
+              "host": ["{{baseUrl}}"],
+              "path": ["offer", "redeemed"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Training",
+      "item": [
+        {
+          "name": "Get Trainings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/training?category=Basic",
+              "host": ["{{baseUrl}}"],
+              "path": ["training"],
+              "query": [
+                { "key": "category", "value": "Basic" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Start Training",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trainingId\": \"training_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/training/start",
+              "host": ["{{baseUrl}}"],
+              "path": ["training", "start"]
+            }
+          }
+        },
+        {
+          "name": "Complete Training",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trainingId\": \"training_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/training/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["training", "complete"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complaints",
+      "item": [
+        {
+          "name": "Submit Complaint",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"Issue with product\",\n  \"description\": \"Details here\",\n  \"images\": [\"url1\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint",
+              "host": ["{{baseUrl}}"],
+              "path": ["complaint"]
+            }
+          }
+        },
+        {
+          "name": "Get Complaints",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/complaint",
+              "host": ["{{baseUrl}}"],
+              "path": ["complaint"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Add Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Asian Paints\",\n  \"category\": \"Paints\",\n  \"packingSizes\": [\"1L\", \"5L\"],\n  \"images\": [\"url1\", \"url2\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/product",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "product"]
+            }
+          }
+        },
+        {
+          "name": "Get Dealers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/dealers",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "dealers"]
+            }
+          }
+        },
+        {
+          "name": "Approve Dealer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dealerId\": \"dealer_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/approve-dealer",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "approve-dealer"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

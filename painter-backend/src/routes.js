@@ -17,6 +17,8 @@ router.use('/withdrawals', require('./modules/withdrawal/withdrawal.routes'));
 router.use('/admin', require('./modules/admin/admin.withdrawal.routes'));
 router.use('/admin', require('./modules/admin/admin.complaint.routes'));
 router.use('/admin', require('./modules/admin/admin.coupon.routes'));
+router.use('/admin', require('./modules/admin/admin.painter.routes')); // Added
+router.use('/admin', require('./modules/admin/admin.product.routes')); // Added
 
 
 router.use('/dashboard', require('./modules/dashboard/dashboard.routes'));
@@ -34,6 +36,10 @@ router.use('/admin', require('./modules/admin/admin.training.routes'));
 router.use('/notifications', require('./modules/notification/notification.routes'));
 
 router.use('/admin', require('./modules/admin/admin.notification.routes'));
+
+router.use('/products', require('./modules/product/product.routes')); // Added
+
+router.use('/dealer', require('./modules/dealer/dealer.routes')); // Added
 
 
 module.exports = router;

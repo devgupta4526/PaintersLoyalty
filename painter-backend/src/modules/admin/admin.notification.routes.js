@@ -17,4 +17,11 @@ router.post(
   ctrl.sendUser
 );
 
+router.post(
+  '/notifications/region/:region',
+  auth,
+  role(['ADMIN']),
+  ctrl.sendRegion
+);
+
 module.exports = router;

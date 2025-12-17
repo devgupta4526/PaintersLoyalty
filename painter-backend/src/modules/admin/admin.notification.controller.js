@@ -22,3 +22,16 @@ exports.sendUser = async (req, res, next) => {
     next(e);
   }
 };
+
+exports.sendRegion = async (req, res, next) => {
+  try {
+    res.json(
+      await service.sendToRegion(
+        req.params.region,
+        req.body
+      )
+    );
+  } catch (e) {
+    next(e);
+  }
+};

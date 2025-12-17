@@ -25,6 +25,15 @@ exports.getMyNotifications = async (userId) => {
     .sort({ createdAt: -1 });
 };
 
+exports.getNotificationById = async (id) => {
+  return Notification.findById(id);
+};
+
+exports.registerDevice = async (userId, token) => {
+  // Assuming a Device model, but for now just return success
+  return { message: 'Device registered' };
+};
+
 exports.markRead = async (userId, id) => {
   return Notification.findOneAndUpdate(
     { _id: id, userId },

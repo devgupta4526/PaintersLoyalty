@@ -20,9 +20,11 @@ const OfferSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['DRAFT', 'ACTIVE', 'CLOSED'],
+    enum: ['DRAFT', 'PENDING_DEALER', 'ACTIVE', 'CLOSED'],
     default: 'DRAFT'
   },
+
+  dealerApproved: { type: Boolean, default: false }, // Added for dealer approval
 
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });

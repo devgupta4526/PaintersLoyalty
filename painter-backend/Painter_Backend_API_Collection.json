@@ -1,0 +1,1371 @@
+{
+  "info": {
+    "name": "Painter Loyalty Backend API",
+    "_postman_id": "generated-id",
+    "description": "Postman collection for Painter Loyalty Backend API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:4000" },
+    { "key": "auth_token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Send OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mobile\": \"1234567890\",\n  \"email\": \"test@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/send-otp",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "send-otp"]
+            }
+          }
+        },
+        {
+          "name": "Verify OTP",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let res = pm.response.json();",
+                  "if (res.token) {",
+                  "pm.collectionVariables.set('auth_token', res.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mobile\": \"1234567890\",\n  \"email\": \"test@example.com\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/verify-otp",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "verify-otp"]
+            }
+          }
+        },
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let res = pm.response.json();",
+                  "if (res.token) {",
+                  "pm.collectionVariables.set('auth_token', res.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"ADMIN\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register-admin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "register-admin"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Painter",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/painter/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "painter", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Create or Update Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/painter/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "painter", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Get Portfolio",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/painter/portfolio",
+              "host": ["{{base_url}}"],
+              "path": ["api", "painter", "portfolio"]
+            }
+          }
+        },
+        {
+          "name": "Upload Photo",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/painter/photo",
+              "host": ["{{base_url}}"],
+              "path": ["api", "painter", "photo"]
+            }
+          }
+        },
+        {
+          "name": "Upload KYC",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "idProof",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/painter/kyc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "painter", "kyc"]
+            }
+          }
+        },
+        {
+          "name": "Add Skills",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"skills\": [\"Painting\", \"Interior\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/painter/skills",
+              "host": ["{{base_url}}"],
+              "path": ["api", "painter", "skills"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Coupon",
+      "item": [
+        {
+          "name": "Validate Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"COUPON123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/coupon/validate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "coupon", "validate"]
+            }
+          }
+        },
+        {
+          "name": "Redeem Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"COUPON123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/coupon/redeem",
+              "host": ["{{base_url}}"],
+              "path": ["api", "coupon", "redeem"]
+            }
+          }
+        },
+        {
+          "name": "Get My Coupons",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/coupon/my",
+              "host": ["{{base_url}}"],
+              "path": ["api", "coupon", "my"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wallet",
+      "item": [
+        {
+          "name": "Get Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "summary"]
+            }
+          }
+        },
+        {
+          "name": "Get Monthly",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/monthly?year=2024",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "monthly"],
+              "query": [
+                { "key": "year", "value": "2024" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Quarterly",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/quarterly?year=2024",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "quarterly"],
+              "query": [
+                { "key": "year", "value": "2024" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Yearly",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/yearly",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "yearly"]
+            }
+          }
+        },
+        {
+          "name": "Get Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/transactions?type=COUPON_EARN&year=2024",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "transactions"],
+              "query": [
+                { "key": "type", "value": "COUPON_EARN" },
+                { "key": "year", "value": "2024" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Withdrawal Eligibility",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wallet/withdrawal-eligibility",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wallet", "withdrawal-eligibility"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Withdrawals",
+      "item": [
+        {
+          "name": "Request Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/withdrawals/request",
+              "host": ["{{base_url}}"],
+              "path": ["api", "withdrawals", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get My Withdrawals",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/withdrawals/my",
+              "host": ["{{base_url}}"],
+              "path": ["api", "withdrawals", "my"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Withdrawals",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/withdrawals",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "withdrawals"]
+            }
+          }
+        },
+        {
+          "name": "Approve Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/withdrawals/:id/approve",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "withdrawals", ":id", "approve"],
+              "variable": [
+                { "key": "id", "value": "withdrawal_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reject Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/withdrawals/:id/reject",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "withdrawals", ":id", "reject"],
+              "variable": [
+                { "key": "id", "value": "withdrawal_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Complaints",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/complaints",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "complaints"]
+            }
+          }
+        },
+        {
+          "name": "Update Complaint",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/complaints/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "complaints", ":id"],
+              "variable": [
+                { "key": "id", "value": "complaint_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generate Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"count\": 10,\n  \"value\": 100,\n  \"expiresAt\": \"2025-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/coupons/generate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "coupons", "generate"]
+            }
+          }
+        },
+        {
+          "name": "List Coupons",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/coupons",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "coupons"]
+            }
+          }
+        },
+        {
+          "name": "Assign Coupons to Dealer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dealerId\": \"dealer_id_here\",\n  \"codes\": [\"COUPON1\", \"COUPON2\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/coupons/assign",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "coupons", "assign"]
+            }
+          }
+        },
+        {
+          "name": "Get Coupon Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/coupons/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "coupons", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Create Offer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/offers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "offers"]
+            }
+          }
+        },
+        {
+          "name": "List Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/offers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "offers"]
+            }
+          }
+        },
+        {
+          "name": "Update Offer Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/offers/:id/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "offers", ":id", "status"],
+              "variable": [
+                { "key": "id", "value": "offer_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Training",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/trainings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "trainings"]
+            }
+          }
+        },
+        {
+          "name": "List Trainings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/trainings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "trainings"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Training Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/trainings/:id/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "trainings", ":id", "status"],
+              "variable": [
+                { "key": "id", "value": "training_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Send Notification to All",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/notifications/all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "notifications", "all"]
+            }
+          }
+        },
+        {
+          "name": "Send Notification to Region",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/notifications/region/:region",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "notifications", "region", ":region"],
+              "variable": [
+                { "key": "region", "value": "region_name" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Send Notification to Dealer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Notification Title\",\n  \"message\": \"Notification message\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/notifications/dealer/:dealerId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "notifications", "dealer", ":dealerId"],
+              "variable": [
+                { "key": "dealerId", "value": "dealer_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Painters",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/painters",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "painters"]
+            }
+          }
+        },
+        {
+          "name": "Approve KYC",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/painters/:id/approve-kyc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "painters", ":id", "approve-kyc"],
+              "variable": [
+                { "key": "id", "value": "painter_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reject KYC",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/painters/:id/reject-kyc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "painters", ":id", "reject-kyc"],
+              "variable": [
+                { "key": "id", "value": "painter_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Block Painter",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/painters/:id/block",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "painters", ":id", "block"],
+              "variable": [
+                { "key": "id", "value": "painter_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Unblock Painter",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/painters/:id/unblock",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "painters", ":id", "unblock"],
+              "variable": [
+                { "key": "id", "value": "painter_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Product Name\",\n  \"category\": \"Interior\",\n  \"description\": \"Description\",\n  \"packingSizes\": [\"1L\", \"5L\"],\n  \"recommendedUsage\": \"Usage\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/products",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "products"]
+            }
+          }
+        },
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/products",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "products"]
+            }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/products/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "products", ":id"],
+              "variable": [
+                { "key": "id", "value": "product_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/products/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "products", ":id"],
+              "variable": [
+                { "key": "id", "value": "product_id" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dashboard/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dashboard", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complaints",
+      "item": [
+        {
+          "name": "Get Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/complaints/categories",
+              "host": ["{{base_url}}"],
+              "path": ["api", "complaints", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Create Complaint",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "subject",
+                  "value": "Issue with product",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Details here",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "Product Quality",
+                  "type": "text"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/complaints/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "complaints", ""]
+            }
+          }
+        },
+        {
+          "name": "Get My Complaints",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/complaints/my",
+              "host": ["{{base_url}}"],
+              "path": ["api", "complaints", "my"]
+            }
+          }
+        },
+        {
+          "name": "Get Complaint History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/complaints/:id/history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "complaints", ":id", "history"],
+              "variable": [
+                { "key": "id", "value": "complaint_id" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Offers",
+      "item": [
+        {
+          "name": "Get Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/offers/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offers", ""]
+            }
+          }
+        },
+        {
+          "name": "Join Offer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/offers/:id/join",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offers", ":id", "join"],
+              "variable": [
+                { "key": "id", "value": "offer_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get In-Progress Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/offers/in-progress",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offers", "in-progress"]
+            }
+          }
+        },
+        {
+          "name": "Get Redeemed Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/offers/redeemed",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offers", "redeemed"]
+            }
+          }
+        },
+        {
+          "name": "Get Closed Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/offers/closed",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offers", "closed"]
+            }
+          }
+        },
+        {
+          "name": "Get Offer Progress",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/offers/:id/progress",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offers", ":id", "progress"],
+              "variable": [
+                { "key": "id", "value": "offer_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Complete Offer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/offers/:id/complete",
+              "host": ["{{base_url}}"],
+              "path": ["api", "offers", ":id", "complete"],
+              "variable": [
+                { "key": "id", "value": "offer_id" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trainings",
+      "item": [
+        {
+          "name": "Get All Trainings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/trainings/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "trainings", ""]
+            }
+          }
+        },
+        {
+          "name": "Complete Training",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/trainings/:id/complete",
+              "host": ["{{base_url}}"],
+              "path": ["api", "trainings", ":id", "complete"],
+              "variable": [
+                { "key": "id", "value": "training_id" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get My Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Notification by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", ":id"],
+              "variable": [
+                { "key": "id", "value": "notification_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register Device",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceToken\": \"device_token_here\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notifications/register-device",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "register-device"]
+            }
+          }
+        },
+        {
+          "name": "Mark as Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/:id/read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", ":id", "read"],
+              "variable": [
+                { "key": "id", "value": "notification_id" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dealer",
+      "item": [
+        {
+          "name": "Get My Painters",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dealer/painters",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dealer", "painters"]
+            }
+          }
+        },
+        {
+          "name": "Approve Painter",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dealer/painters/:id/approve",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dealer", "painters", ":id", "approve"],
+              "variable": [
+                { "key": "id", "value": "painter_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Complaints",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dealer/complaints",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dealer", "complaints"]
+            }
+          }
+        },
+        {
+          "name": "Get Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dealer/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dealer", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Approve Offer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dealer/offers/:id/approve",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dealer", "offers", ":id", "approve"],
+              "variable": [
+                { "key": "id", "value": "offer_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reject Offer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dealer/offers/:id/reject",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dealer", "offers", ":id", "reject"],
+              "variable": [
+                { "key": "id", "value": "offer_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Pending Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dealer/offers/pending",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dealer", "offers", "pending"]
+            }
+          }
+        },
+        {
+          "name": "Assign Coupons to Painter",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"painterId\": \"painter_id_here\",\n  \"codes\": [\"COUPON1\", \"COUPON2\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/dealer/coupons/assign",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dealer", "coupons", "assign"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

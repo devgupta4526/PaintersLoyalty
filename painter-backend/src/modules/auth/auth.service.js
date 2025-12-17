@@ -1,6 +1,7 @@
 const User = require('./auth.model');
 const Otp = require('./otp.model');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 exports.sendOtp = async ({ mobile, email }) => {
   let user = await User.findOne({ $or: [{ mobile }, { email }] });
@@ -42,4 +43,28 @@ exports.verifyOtp = async ({ mobile, email, otp }) => {
   console.log('Generated Token:', token);
 
   return { token, isNewUser: true };
+};
+
+exports.login = async ({ email, password }) => {
+  const user = await User.findOne({ email });
+  if (!user || !user.password) throw new Error('Invalid credentials');
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) throw new Error('Invalid credentials');
+
+  if (!user.isActive) throw new Error('Account is blocked');
+
+  const token = jwt.sign(
+    { userId: user._id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN }
+  );
+
+  return { token, role: user.role };
+};
+
+exports.registerAdmin = async ({ email, password, role = 'ADMIN' }) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await User.create({ email, password: hashedPassword, role, isVerified: true });
+  return user;
 };

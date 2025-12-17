@@ -3,6 +3,7 @@ const Offer = require('../offer/offer.model');
 exports.createOffer = async (data, userId) => {
   return Offer.create({
     ...data,
+    status: 'PENDING_DEALER', // Set to pending dealer approval
     createdBy: userId
   });
 };
