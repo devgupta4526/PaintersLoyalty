@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 exports.sendOtp = async ({ mobile, email }) => {
-  let user = await User.findOne({ $or: [{ mobile }, { email }] });
+  const query = email ? { $or: [{ mobile }, { email }] } : { mobile };
+  let user = await User.findOne(query);
   if (!user) {
     user = await User.create({ mobile, email });
   }
@@ -23,7 +24,8 @@ exports.sendOtp = async ({ mobile, email }) => {
 };
 
 exports.verifyOtp = async ({ mobile, email, otp }) => {
-  const user = await User.findOne({ $or: [{ mobile }, { email }] });
+  const query = email ? { $or: [{ mobile }, { email }] } : { mobile };
+  const user = await User.findOne(query);
   if (!user) throw new Error('User not found');
 
   const record = await Otp.findOne({ userId: user._id, otp });
